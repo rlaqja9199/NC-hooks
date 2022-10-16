@@ -1,18 +1,29 @@
 import './App.css';
-import useAxios from './HOOKS/useAxios/useAxios';
+import { useTabs } from './HOOKS/useTabs/useTabs';
 
+const content =[
+  {
+      tab: "Section 1",
+      content: "I'm the content of the Section 1"
+  },
+  {
+      tab: "Section 2",
+      content: "I'm the content of the Section 2"
+  }
+]
 
+ 
 function App() {
-  const { loading, data, error, refetch } = useAxios({url:"https://yts.mx/api/v2/list_movies.json"});
-  console.log(`loading: ${loading}\nError:  ${error}\nData: ${JSON.stringify(data)}`)
-  console.log(data)
+  const {currentItem, changeItem} = useTabs(0, content);
   return (
     <div className="App">
-      <h1>{data && data.status}</h1>
-      <h2>{loading && "Loading"}</h2>
-      <button onClick={refetch}>Refetch</button>
+      {content.map((section, index)=>(
+        <button onClick={()=> changeItem(index)}>{section.tab}</button>
+      ))}
+      <div>{currentItem.content}</div>
     </div>
   );
 }
 
 export default App;
+
